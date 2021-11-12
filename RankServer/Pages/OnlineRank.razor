@@ -1,0 +1,81 @@
+﻿@page "/OnlineRank"
+@page "/OnlineRank/{NickName}/{Score}"
+@inject RankDbContext dbContext
+@inject IJSRuntime jsRuntime
+
+<h3>Online Rank</h3>
+
+<hr />
+<br />
+
+@if (rankers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Nick Name</th>
+                <th>Score</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ranker in rankers)
+            {
+                ++rank;
+                <tr>
+                    <td>@rank</td>
+                    <td>@ranker.NickName</td>
+                    <td>@ranker.Score</td>
+                    <td>@ranker.Date</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public string NickName { get; set; }
+    [Parameter]
+    public string Score { get; set; }
+
+    List<Ranker> rankers;
+    int rank = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrEmpty(NickName) == false)
+            await SaveRankerToDb();
+
+        var temp = await dbContext.Rankers.AsNoTracking().ToListAsync();
+        temp.Sort((x,y) => y.Score.CompareTo(x.Score));
+        rankers = temp.Take(100).ToList();
+    }
+
+
+    private async Task SaveRankerToDb()
+    {
+        int score = StringUtil.DecryptToInt(Score);
+        var ranker = await dbContext.Rankers.AsNoTracking().FirstOrDefaultAsync(m => m.NickName == NickName);
+        if (ranker == null)
+        {
+            await dbContext.AddAsync(new Ranker { NickName = NickName, Score = score, Date = DateTime.Now });
+            await dbContext.SaveChangesAsync();
+        }
+        else
+        {
+            if (ranker.Score < score)
+            {
+                ranker.Score = score;
+                dbContext.Update(ranker);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+    }
+
+}
