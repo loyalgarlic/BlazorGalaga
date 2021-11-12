@@ -6,11 +6,7 @@
 <h1>Offline Rank</h1>
 
 <hr />
-<div class="row">
-    <button @onclick="btnClickClose">
-        Close
-    </button>
-</div>
+
 <br />
 @if (rankers == null)
 {
@@ -53,8 +49,4 @@ else
         rankers = rankers.OrderByDescending(m => m.Score).ToList();
     }
 
-    protected async Task btnClickClose()
-    {
-        await JsRuntime.InvokeVoidAsync("window.close");
-    }
 }
