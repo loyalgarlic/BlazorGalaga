@@ -1,29 +1,27 @@
-# BlazorGalaga
+# Gstar2021Galaga
 
-A recreation of the classic Namco fixed shooter arcade game Galaga written in C# using the Blazor SPA framework and .NET Core. This is not an emulation or virtual machine, but a complete re-implementation of the game from the ground up.
+랭킹 시스템을 설명하기 위하여  BlazorGalaga를 포크하고 RankServer 프로젝트를 추가한 것입니다. 
 
-[Demo Here](https://blazorguy.net/Blazor/BlazorGalaga/)
+* BlazorGalaga 
+  * https://github.com/BlazorGuy/BlazorGalaga
+  * [Demo Here](https://blazorguy.net/Blazor/BlazorGalaga/)
 
-![BlazorGalaga](/BlazorGalaga/wwwroot/Assets/screenshot.PNG?raw=true "BlazorGalaga")
+## Gstar2021Galaga
 
-### Blazor Extensions Canvas
+추가 기능
 
-The graphics are rendered using the HTML Canvas element, leveraging the [Blazor Extensions Canvas](https://github.com/BlazorExtensions/Canvas) library. This allows all drawing and animation to be implemented in C#.
+* 점수를 플레이중인 웹브라우저, 원격 서버에 저장할 수 있고, 랭킹을 볼 수 있습니다. 
+* * [접속주소](http://20.194.45.198/)
 
-### Howler.Blazor
+## RankServer
 
-Sound logic is implemented using the [Howler.Blazor](https://github.com/StefH/Howler.Blazor) library.
+* 게임을 실행중인 웹브라우저로부터 별명과 점수를 받아서 데이터베이스와 redis에 저장합니다.
+* 데이터베이스 기반 또는 redis 기반으로 랭킹을 조회합니다. 
 
-### Mobile Support
 
-Touch support for mobile is implemented with the [Hammer.js](https://hammerjs.github.io/) Javascript library. 
 
-### Peformance
 
-The game is optimized to run at 60FPS. There are cases where rendering 40+ sprites at once will decrease performance on slower machines and phones. The animation engine contains logic that automatically adjusts FPS based on system performance. 
 
-### Future Enhancements
+  
 
-The game runs on a serverless architecture or CDN. Because of this, high score saving logic is nonexistent. High score saving can be easily added, but a server to store the high scores will be required. 
 
-The game contains the first three challenge levels and infinite game levels. The original Galaga has eight total challenge levels and a maximum of 255 game levels. For the average player, these differences are unnoticeable as most players never make it past level 20.
