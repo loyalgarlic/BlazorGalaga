@@ -1,7 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorGalaga", "BlazorGalaga\BlazorGalaga.csproj", "{202B6679-81B6-4D6C-83B3-0DC9DE1151AC}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGalaga", "BlazorGalaga\BlazorGalaga.csproj", "{202B6679-81B6-4D6C-83B3-0DC9DE1151AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RankServer", "RankServer\RankServer.csproj", "{874491BE-10A1-45EB-BBB3-228FFBEC670F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,5 +16,15 @@ Global
 		{202B6679-81B6-4D6C-83B3-0DC9DE1151AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{202B6679-81B6-4D6C-83B3-0DC9DE1151AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{202B6679-81B6-4D6C-83B3-0DC9DE1151AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{874491BE-10A1-45EB-BBB3-228FFBEC670F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{874491BE-10A1-45EB-BBB3-228FFBEC670F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{874491BE-10A1-45EB-BBB3-228FFBEC670F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{874491BE-10A1-45EB-BBB3-228FFBEC670F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97E271EF-CB9A-4F88-B073-1B9A871C50A0}
 	EndGlobalSection
 EndGlobal

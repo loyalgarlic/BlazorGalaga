@@ -26,13 +26,16 @@ namespace BlazorGalaga.Services
 
         public AnimationService animationService { get; set; }
         public SpriteService spriteService { get; set; }
+        
+        public RankService rankService { get; set; }
+        
         public Ship Ship { get; set; }
         public int Lives { get; set; }
         public int Level { get; set; }
         public int Score { get; set; }
         public bool Started { get; set; }
         public int HighScore { get; set; }
-
+        
         private int prevbugcount;
         private bool capturehappened;
         private int hits;
@@ -51,13 +54,13 @@ namespace BlazorGalaga.Services
         private int nextextralifescore;
 
         //for debugging
-        public bool debugmode = true;
+        public bool debugmode = false;
         private bool skipintro = false;
-        private bool soundoff = true;
-        private bool aion = true;
+        private bool soundoff = false;
+        private bool aion = false;
         private bool shipinvincable = false;
-        private bool showdebugdetails = true;
-        private bool infinitelives = true;
+        private bool showdebugdetails = false;
+        private bool infinitelives = false;
 
         #endregion
 
@@ -94,7 +97,9 @@ namespace BlazorGalaga.Services
             NextDiveWaitTime = 0;
             if(Ship != null)
                 Ship.Sprite = new Sprite(Sprite.SpriteTypes.Ship);
-            if (HighScore == 0) HighScore = Constants.MinHighScore;
+            //if (HighScore == 0) HighScore = Constants.MinHighScore;
+            if (HighScore == 0)
+                HighScore = rankService.GetOfflineHighScore();
         }
 
         private void InitLevel(int level)
@@ -472,7 +477,7 @@ namespace BlazorGalaga.Services
                     if (!animationService.Animatables.Any(a => a.Sprite.SpriteType == Sprite.SpriteTypes.BugMissle) &&
                         !bugs.Any(a=>a.CaptureState == Bug.enCaptureState.Started) && !bugs.Any(a=>a.IsDiving))
                     {
-                        if(infinitelives) Lives -= 1;
+                        if(!infinitelives) Lives -= 1;
                         Ship.HasExploded = false;
                         Ship.IsExploding = false;
                         if (Lives >= 0)
@@ -482,6 +487,10 @@ namespace BlazorGalaga.Services
                             await ConsoleManager.ClearConsole(spriteService);
                             await ConsoleManager.DrawConsole(Lives, spriteService, Ship, true, Level + LevelOffset,Score, HighScore);
                             await ConsoleManager.ClearConsoleLevelText(spriteService);
+                        }
+                        else
+                        {
+                            await rankService.OpenSavePage(Score);
                         }
                         WaitManager.ClearSteps();
                     }

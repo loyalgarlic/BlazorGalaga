@@ -15,6 +15,7 @@ using BlazorGalaga.Static.GameServiceHelpers;
 using Howler.Blazor.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Blazored.LocalStorage;
 
 namespace BlazorGalaga.Pages
 {
@@ -57,6 +58,8 @@ namespace BlazorGalaga.Pages
         public IHowl Howl { get; set; }
         [Inject]
         public IHowlGlobal HowlGlobal { get; set; }
+        [Inject]
+        public RankService rankService { get; set; }
 
         protected override void OnInitialized()
         {
@@ -126,6 +129,7 @@ namespace BlazorGalaga.Pages
 
             gameService.animationService = animationService;
             gameService.spriteService = spriteService;
+            gameService.rankService = rankService;
             gameService.Init();
 
             DebugMode = gameService.debugmode;
