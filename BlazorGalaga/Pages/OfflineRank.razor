@@ -1,0 +1,60 @@
+﻿@page "/OfflineRank"
+@inject RankService rankService
+@inject IJSRuntime JsRuntime
+@using Newtonsoft.Json
+
+<h1>Offline Rank</h1>
+
+<hr />
+<div class="row">
+    <button @onclick="btnClickClose">
+        Close
+    </button>
+</div>
+<br />
+@if (rankers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>RANK</th>
+                <th>Nick Name</th>
+                <th>Score</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ranker in rankers)
+            {
+                ++rank;
+                <tr>
+                    <td>@rank</td>
+                    <td>@ranker.NickName</td>
+                    <td>@ranker.Score</td>
+                    <td>@ranker.Date</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Ranker>
+    rankers;
+    int rank = 0;
+
+    protected override void OnInitialized()
+    {
+        rankers = rankService.GetRankers();
+        rankers = rankers.OrderByDescending(m => m.Score).ToList();
+    }
+
+    protected async Task btnClickClose()
+    {
+        await JsRuntime.InvokeVoidAsync("window.close");
+    }
+}

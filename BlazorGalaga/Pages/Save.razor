@@ -1,0 +1,85 @@
+﻿@page "/Save/{ScoreString}"
+
+@using Microsoft.Extensions.Configuration
+
+@inject RankService rankService
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
+@inject IConfiguration Configuration
+
+<h3>Save</h3>
+<br />
+<div class="row">
+    Your Score : @score
+</div>
+<br />
+<div>
+    <div class="row">
+        <button @onclick="btnClickOfflineSave">
+            Offline Save
+        </button>
+    </div>
+    <br />
+    <div class="row">
+        <button @onclick="btnClickOnlineSave">
+            Online Save
+        </button>
+    </div>
+    <br />
+    <div class="row">
+        <button @onclick="btnClickOnlineSaveRedis">
+            Online Save with redis
+        </button>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <button @onclick="btnClickClose">
+            Close
+        </button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string ScoreString { get; set; }
+
+    private int score;
+
+    protected override void OnInitialized()
+    {
+        score = StringUtil.DecryptToInt(ScoreString);
+    }
+
+    private async Task btnClickOfflineSave()
+    {
+        await rankService.SaveOfflineAsync(score);
+    }
+
+    private async Task btnClickOnlineSave()
+    {
+        string nickName = await jsRuntime.InvokeAsync<string>("prompt", "your nickname:");
+        if (string.IsNullOrEmpty(nickName))
+            return;
+        string uri = Configuration["RankServerUrl"] + "OnlineRank/"+ nickName + "/" + ScoreString;
+        navigationManager.NavigateTo(uri, true);
+    }
+
+    private async Task btnClickOnlineSaveRedis()
+    {
+        string nickName = await jsRuntime.InvokeAsync<string>("prompt", "your nickname:");
+        if (string.IsNullOrEmpty(nickName))
+            return;
+        string uri = Configuration["RankServerUrl"] + "OnlineRankRedis/" + nickName + "/" + ScoreString;
+        navigationManager.NavigateTo(uri, true);
+
+    }
+
+    private async Task btnClickClose()
+    {
+        await jsRuntime.InvokeVoidAsync("window.close");
+    }
+
+}
