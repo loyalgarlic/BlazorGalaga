@@ -19,11 +19,18 @@ public static class StringUtil
 
     public static string Decrypt(this string text)
     {
-        SymmetricAlgorithm algorithm = DES.Create();
-        ICryptoTransform transform = algorithm.CreateDecryptor(key, iv);
-        byte[] inputbuffer = StringToByteArray(text);
-        byte[] outputBuffer = transform.TransformFinalBlock(inputbuffer, 0, inputbuffer.Length);
-        return Encoding.Unicode.GetString(outputBuffer);
+        try
+        {
+            SymmetricAlgorithm algorithm = DES.Create();
+            ICryptoTransform transform = algorithm.CreateDecryptor(key, iv);
+            byte[] inputbuffer = StringToByteArray(text);
+            byte[] outputBuffer = transform.TransformFinalBlock(inputbuffer, 0, inputbuffer.Length);
+            return Encoding.Unicode.GetString(outputBuffer);
+        }
+        catch(Exception e)
+        {
+            return "";
+        }
     }
 
     public static string CryptFromInt(int value)
