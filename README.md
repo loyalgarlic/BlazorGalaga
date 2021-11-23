@@ -1,6 +1,6 @@
 # Gstar2021Galaga
 
-랭킹 시스템을 설명하기 위하여  BlazorGalaga를 포크하고 RankServer 프로젝트를 추가한 것입니다. 
+랭킹 시스템, 랭킹서버를 설명하기 위하여  BlazorGalaga를 포크하고 RankServer 프로젝트를 추가한 것입니다. 
 
 * BlazorGalaga 
   * https://github.com/BlazorGuy/BlazorGalaga
